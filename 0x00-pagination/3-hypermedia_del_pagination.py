@@ -17,7 +17,10 @@ class Server:
 
 
     def __init__(self) -> None:
-        """Initialize the Server with dataset and indexed dataset set to None."""
+        """
+        Initialize the Server with dataset and
+        indexed dataset set to None.
+        """
         self.__dataset = None
         self.__indexed_dataset = None
 
@@ -40,15 +43,19 @@ class Server:
         return self.__indexed_dataset
 
 
-    def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict[str, Any]:
-        """Return deletion-resilient hypermedia pagination info starting from index.
+    def get_hyper_index(
+            self, index: int = None, page_size: int = 10
+            ) -> Dict[str, Any]:
+        """Return deletion-resilient hypermedia pagination info
+        starting from index.
 
         Args:
             index (int): The current start index of the return page.
             page_size (int): The current page size.
 
         Returns:
-            Dict[str, Any]: Dictionary with index, next_index, page_size, and data.
+            Dict[str, Any]:
+            Dictionary with index, next_index, page_size, and data.
         """
         assert isinstance(index, int) and index >= 0
         indexed = self.indexed_dataset()

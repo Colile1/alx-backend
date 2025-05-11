@@ -19,6 +19,7 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
     end = page * page_size
     return (start, end)
 
+
 class Server:
     """Server class to paginate a database of popular baby names."""
     DATA_FILE = "Popular_Baby_Names.csv"
@@ -26,6 +27,7 @@ class Server:
     def __init__(self) -> None:
         """Initialize the Server with dataset set to None."""
         self.__dataset = None
+
 
     def dataset(self) -> List[List]:
         """Cached dataset loaded from CSV file, skipping the header row.
@@ -39,6 +41,7 @@ class Server:
                 dataset = [row for row in reader]
             self.__dataset = dataset[1:]
         return self.__dataset
+
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Return a page of the dataset.

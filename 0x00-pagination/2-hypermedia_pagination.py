@@ -28,6 +28,7 @@ class Server:
         """Initialize the Server instance."""
         self.__dataset = None
 
+
     def dataset(self) -> List[List]:
         """Load and cache the dataset.
 
@@ -40,6 +41,7 @@ class Server:
                 dataset = [row for row in reader]
             self.__dataset = dataset[1:]
         return self.__dataset
+
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Get a page of the dataset.
@@ -56,6 +58,7 @@ class Server:
         dataset = self.dataset()
         start, end = index_range(page, page_size)
         return dataset[start:end]
+
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         """Return a dictionary with pagination info and data.
