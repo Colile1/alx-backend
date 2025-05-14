@@ -1,8 +1,8 @@
-# ALX Backend
+# 0x01-caching
+## Caching
 
-## 0x01-caching Module
 
-This module contains various caching algorithm implementations in Python, including:
+This directory contains various caching algorithm implementations in Python, including:
 
 - **BasicCache**: Unlimited cache using a dictionary.
 - **FIFOCache**: First-In First-Out eviction policy.
@@ -12,5 +12,3 @@ This module contains various caching algorithm implementations in Python, includ
 - **LFUCache**: Least Frequently Used eviction policy.
 
 All classes inherit from `BaseCaching` and follow the requirements for documentation, style, and usage.
-
-For more details, see the [0x01-caching README](0x01-caching/README.md).
