@@ -1,85 +1,52 @@
 #!/usr/bin/env python3
 """
-Flask app with Babel and template parametrization for ALX i18n project.
-This app configures Babel and uses gettext for translations in templates.
+Flask application for Task 3: Parametrize templates.
+This module sets up a Flask app with Babel integration,
+configures available languages, determines locale from request,
+and uses gettext for template parametrization.
 """
+from flask import Flask, render_template, request
+from flask_babel import Babel, _
 
-from flask import Flask, render_template, request, g
-from flask_babel import Babel, _, format_datetime
-import pytz
-from pytz.exceptions import UnknownTimeZoneError
-from datetime import datetime
+app = Flask(__name__)
+babel = Babel(app)
 
 
 class Config:
     """
-    Configuration for Babel with supported languages, default locale, and
-    timezone.
+    Configuration class for the Flask application.
+    This class holds configuration variables for the application,
+    such as available languages, default locale, and default timezone.
     """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
-app = Flask(__name__)
 app.config.from_object(Config)
-babel = Babel(app)
 
 
 @babel.localeselector
 def get_locale() -> str:
-    """Select the best match language from the URL, user settings, or request
-    headers.
     """
-    # 1. Locale from URL parameters
-    locale = request.args.get('locale')
-    if locale and locale in app.config['LANGUAGES']:
-        return locale
-    # 2. Locale from user settings (mocked user)
-    user = getattr(g, 'user', None)
-    if user:
-        user_locale = user.get('locale')
-        if user_locale in app.config['LANGUAGES']:
-            return user_locale
-    # 3. Locale from request header
+    Determines the best match for supported languages based on request.
+    Uses the 'Accept-Language' header from the incoming request.
+    Returns:
+        str: The best matched language code (e.g., 'en', 'fr').
+    """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
-@babel.timezoneselector
-def get_timezone() -> str:
-    """Select the best match timezone from the URL, user settings, or default
-    to UTC.
-    """
-    # 1. Timezone from URL parameters
-    tz_param = request.args.get('timezone')
-    if tz_param:
-        try:
-            pytz.timezone(tz_param)
-            return tz_param
-        except UnknownTimeZoneError:
-            pass
-    # 2. Timezone from user settings (mocked user)
-    user = getattr(g, 'user', None)
-    if user:
-        user_tz = user.get('timezone')
-        if user_tz:
-            try:
-                pytz.timezone(user_tz)
-                return user_tz
-            except UnknownTimeZoneError:
-                pass
-    # 3. Default to UTC
-    return 'UTC'
 
 
 @app.route('/')
 def index() -> str:
-    """Render the index page with translated messages and current time.
     """
-    current_time = format_datetime(datetime.now(pytz.timezone(get_timezone())))
-    return render_template('3-index.html', current_time=current_time,
-                           get_locale=get_locale)
+    Renders the index page using parametrized templates.
+    The title and header are translated using message IDs.
+    Returns:
+        str: The rendered HTML content of the index page.
+    """
+    return render_template('3-index.html')
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
