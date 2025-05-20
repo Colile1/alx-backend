@@ -20,6 +20,7 @@ users = {
     4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
 }
 
+
 def get_user() -> Optional[Dict[str, Any]]:
     """Retrieve a user dictionary based on the login_as parameter."""
     user_id = request.args.get('login_as')
@@ -27,10 +28,12 @@ def get_user() -> Optional[Dict[str, Any]]:
         return users.get(int(user_id))
     return None
 
+
 @app.before_request
 def before_request() -> None:
     """Set the user in the global context before each request."""
     g.user = get_user()
+
 
 @babel.localeselector
 def get_locale() -> str:
@@ -40,7 +43,9 @@ def get_locale() -> str:
         return locale
     if g.user and g.user.get('locale') in app.config['LANGUAGES']:
         return g.user['locale']
-    return request.accept_languages.best_match(app.config['LANGUAGES']) or app.config['BABEL_DEFAULT_LOCALE']
+    return (request.accept_languages.best_match(app.config['LANGUAGES'])
+            or app.config['BABEL_DEFAULT_LOCALE'])
+
 
 @babel.timezoneselector
 def get_timezone() -> str:
@@ -58,12 +63,14 @@ def get_timezone() -> str:
             pass
     return app.config['BABEL_DEFAULT_TIMEZONE']
 
+
 @app.route('/')
 def index() -> str:
     """Render the index page with the current time."""
     tz = get_timezone()
     now = datetime.now(pytz.timezone(tz))
     return render_template('index.html', current_time=now)
+
 
 if __name__ == '__main__':
     app.run()
