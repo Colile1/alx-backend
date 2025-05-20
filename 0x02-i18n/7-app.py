@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Flask app with timezone and current time display."""
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
+from flask_babel import Babel, format_datetime
 from typing import Optional, Dict, Any
 import pytz
 from datetime import datetime
@@ -64,7 +64,7 @@ def index() -> str:
     tz = get_timezone()
     now = datetime.now(pytz.timezone(tz))
     # Use Babel's date/time formatting in template for locale-aware output
-    return render_template('7-index.html', current_time=now)
+    return render_template('7-index.html', current_time=now, format_datetime=format_datetime)
 
 if __name__ == '__main__':
     app.run()

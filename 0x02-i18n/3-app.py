@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Flask app with Babel and template parametrization for ALX i18n project.
+"""
+Flask app with Babel and template parametrization for ALX i18n project.
 This app configures Babel and uses gettext for translations in templates.
 """
 
@@ -76,7 +77,7 @@ def index() -> str:
     """Render the index page with translated messages and current time.
     """
     current_time = format_datetime(datetime.now(pytz.timezone(get_timezone())))
-    return render_template('3-index.html', current_time=current_time)
+    return render_template('3-index.html', current_time=current_time, get_locale=get_locale)
 
 
 if __name__ == '__main__':
