@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="{{ g.get('locale', 'en') }}">
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ _('Welcome to ALX') }}</title>
+  </head>
+  <body>
+    <h1>{{ _('Hello world') }}</h1>
+    {% if g.user %}
+      <p>{{ _('You are logged in as %(username)s.', username=g.user['name']) }}</p>
+    {% else %}
+      <p>{{ _('You are not logged in.') }}</p>
+    {% endif %}
+    <p>{{ _('The current time is %(current_time)s.', current_time=format_datetime(current_time)) }}</p>
+  </body>
+</html>
