@@ -1,6 +1,6 @@
 # 0x02-i18n
 
-This directory contains tasks related to internationalization (i18n) in Flask applications. The tasks demonstrate how to set up and use Flask with Babel for localization, including locale selection, user-based localization, and time zone handling.
+This directory contains tasks related to internationalization (i18n) in Flask applications. The tasks demonstrate how to set up and use Flask with Babel for localization, including locale selection, user-based localization, time zone handling, and displaying the current time in the user's locale.
 
 ## Tasks
 
@@ -27,27 +27,37 @@ This directory contains tasks related to internationalization (i18n) in Flask ap
 - Displays user-specific messages based on login status.
 
 ### 6. Use user locale
-- Updates `get_locale` to prioritize user settings for locale selection.
+- Updates `get_locale` to prioritize user settings for locale selection (URL param > user setting > request header > default).
 
 ### 7. Infer appropriate time zone
 - Implements a `get_timezone` function to determine the appropriate time zone based on URL parameters, user settings, or defaults.
+- Validates time zones using `pytz`.
 
 ### 8. Display the current time (Advanced)
-- Displays the current time on the home page based on the inferred time zone.
+- Displays the current time on the home page in a locale-aware format using Babel.
+- Uses the translation key `current_time_is` for both English and French.
 
 ## Usage
-1. Install Flask and Babel:
+1. Install Flask, Flask-Babel, and pytz:
    ```bash
-   pip install Flask flask-babel
+   pip install Flask flask-babel pytz
    ```
-2. Run the desired app file (e.g., `python3 0-app.py`).
-3. Open your browser and navigate to `http://127.0.0.1:5000/`.
+2. Extract and compile translations:
+   ```bash
+   pybabel extract -F babel.cfg -o messages.pot .
+   pybabel init -i messages.pot -d translations -l en
+   pybabel init -i messages.pot -d translations -l fr
+   # Edit translations/en/LC_MESSAGES/messages.po and translations/fr/LC_MESSAGES/messages.po as needed
+   pybabel compile -d translations
+   ```
+3. Run the desired app file (e.g., `python3 app.py`).
+4. Open your browser and navigate to `http://127.0.0.1:5000/`.
 
 ## Files
-- `0-app.py` to `5-app.py`: Flask app files for each task.
+- `0-app.py` to `7-app.py`, `app.py`: Flask app files for each task.
 - `templates/`: Contains HTML templates for each task.
 - `babel.cfg`: Configuration file for Babel.
-- `translations/`: Directory for compiled translation files (created during Task 3).
+- `translations/`: Directory for compiled translation files.
 
 ---
 
